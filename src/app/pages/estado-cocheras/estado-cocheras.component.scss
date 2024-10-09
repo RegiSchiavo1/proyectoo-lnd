@@ -1,0 +1,125 @@
+@use "./../../../../public/styles/colores.scss";
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&display=swap');
+
+
+*{
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+        #table {
+            width: 50%;
+            margin: 40px 0;
+            font-size: 20px;
+            text-align: center;
+            background-color: #f5f5f5; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #header-tabla {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columnas para coincidir con las filas */
+            background-color: #333; 
+            color: white;
+            text-align: center;
+            padding: 10px; /* Padding para mejorar la alineación */
+            font-size: 25px;
+        }
+
+        .fila {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columnas para coincidir con el encabezado */
+            padding: 10px;
+            align-items: center;
+            text-align: center;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd; 
+        }
+
+        .fila:nth-child(even) {
+            background-color: #f9f9f9; 
+        }
+
+        .fila:nth-child(odd) {
+            background-color: #fff; 
+        }
+
+        .Disponible {
+            background-size: 50%;
+            padding: 50%;
+        }
+
+        #estado-cocheras {
+            text-align: center;
+            font-size: 20px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin: 20px;
+            font-weight: bold;
+            background-color: #e0e0e0; 
+            padding: 5px;
+            border-radius: 5px;
+            width: 20%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        main {
+            margin: 0;
+            background-size: cover;
+            min-height: 100vh;
+        }
+
+        .boton-agregar {
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            width: 180px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .boton-borrar {
+            cursor: pointer;
+            display: flex;
+        }
+
+        .boton-borrar i {
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        .boton-agregar:hover {
+            background-color: #0056b3;
+        }
+
+        #boton {
+            background-color: transparent;
+            border-color: transparent;
+        }
+
+        div {
+            display: grid;
+            padding: 10px;
+            align-items: center;
+        }
+
+        #tabla {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+

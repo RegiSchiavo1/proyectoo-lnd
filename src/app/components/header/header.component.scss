@@ -1,0 +1,47 @@
+@use "./../../../../public/styles/colores.scss";
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&display=swap');
+
+.encab-head{
+    font-size: 40px;
+    margin-left: 25px;
+    color: colores.$color-texto;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    ;
+
+}
+
+header{
+    display:flex;
+    position: relative;
+    z-index: 2;
+    align-items: center;
+    justify-content:space-between;
+    
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+    justify-content: space-between; 
+    align-items: center;
+    flex-direction: row;
+    margin-right: 50px; 
+}
+
+
+.links a {
+    text-decoration: none;
+    display: wrap;
+    gap: 16px;
+    justify-content: space-between;
+    margin: 1px 90px 1px 1px;
+    color: colores.$color-texto;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.links a:hover {
+    color: colores.$color-principal;
+    text-shadow: 2px 2px 4px colores.$color-secundario;
+}

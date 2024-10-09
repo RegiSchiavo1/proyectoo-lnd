@@ -1,0 +1,27 @@
+<app-header></app-header>
+
+
+<div id="tabla">
+    <div id="header-tabla">
+        <div>{{header.nro}}</div>
+        <div>{{header.disponibilidad}}</div>
+        <div>{{header.ingreso}}</div>
+        <div>{{header.acciones}}</div>
+    </div>
+    @for (fila of filas; track $index) {
+    <div class="fila">
+    
+        <div>{{fila.id}}</div>
+        <div>{{fila.deshabilitada ? "no disponible" :  "disponible"}}</div>
+        <div>{{fila.descripcion}}</div>
+        <div class="boton-borrar">
+            <i (click)="eliminarFila($index)" class='bx bx-trash' ></i>
+            <i (click)="cambiarDisponibilidadCochera($index)" class='bx bxs-check-circle'></i>
+            <!-- <i (click)="cambiarDisponibilidadCochera($index)"class='bx bxs-x-circle' ></i> -->
+        </div>
+    </div>}
+</div>
+
+
+
+    <div class="boton-agregar"><button id="boton" (click)="getCocheras()"> get cochera</button></div>
