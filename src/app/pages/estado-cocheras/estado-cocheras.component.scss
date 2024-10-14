@@ -15,18 +15,18 @@
             margin: 40px 0;
             font-size: 20px;
             text-align: center;
-            background-color: #f5f5f5; 
+            background-color: colores.$color-texto-invertido-claro; 
             margin-left: auto;
             margin-right: auto;
         }
 
         #header-tabla {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 columnas para coincidir con las filas */
-            background-color: #333; 
-            color: white;
+            grid-template-columns: repeat(4, 1fr);
+            background-color: colores.$color-principal; 
+            color: colores.$color-texto;
             text-align: center;
-            padding: 10px; /* Padding para mejorar la alineación */
+            padding: 10px; 
             font-size: 25px;
         }
 
@@ -38,17 +38,14 @@
             text-align: center;
         }
 
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd; 
-        }
+ 
 
         .fila:nth-child(even) {
-            background-color: #f9f9f9; 
+            background-color: colores.$color-texto-invertido-claro; 
         }
 
         .fila:nth-child(odd) {
-            background-color: #fff; 
+            background-color: colores.$color-texto-invertido; 
         }
 
         .Disponible {
@@ -62,7 +59,7 @@
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             margin: 20px;
             font-weight: bold;
-            background-color: #e0e0e0; 
+            background-color: colores.$color-texto-invertido-claro; 
             padding: 5px;
             border-radius: 5px;
             width: 20%;
@@ -79,18 +76,19 @@
 
         .boton-agregar {
             text-align: center;
-            background-color: #007bff;
-            color: white;
+            background-color: colores.$color-texto;
             padding: 10px;
             margin: 10px 0;
             width: 180px;
-            font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             margin-left: auto;
             margin-right: auto;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Agregando transición */
+            box-shadow: 0 4px 8px colores.$color-contraste-principal; /* Sombra inicial */
         }
+        
 
         .boton-borrar {
             cursor: pointer;
@@ -103,12 +101,15 @@
         }
 
         .boton-agregar:hover {
-            background-color: #0056b3;
+        background-color: colores.$color-principal;
+        box-shadow: 0 6px 12px colores.$color-principal-bajado;
+            
         }
 
         #boton {
             background-color: transparent;
             border-color: transparent;
+            color: colores.$color-texto-invertido-claro;
         }
 
         div {
@@ -121,5 +122,15 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+
+/* estado-cocheras.component.scss */
+
+/* estado-cocheras.component.scss */
+
+.no-disponible {
+    
+    text-shadow: 1px 1px 3px red; /* Sombra roja para "no disponible" */
+}
 
 

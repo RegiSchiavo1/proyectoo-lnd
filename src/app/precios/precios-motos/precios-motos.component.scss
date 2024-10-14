@@ -1,0 +1,55 @@
+@use "./../../../../public/styles/colores.scss";
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+}
+
+.tabla {
+  background-color: colores.$color-principal-bajado; // color amarillo de fondo
+  padding: 0 20px; // Aplica padding solo en los laterales de la tabla
+  border-radius: 20px;
+  width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+
+  .fila {
+    display: flex;
+    justify-content: space-between; // Distribuye espacio entre las columnas
+    align-items: center;            // Alinea verticalmente los elementos
+    padding: 10px 0;                // Solo padding vertical
+    border-bottom: 1px solid black; // Aplica el borde a la fila completa
+
+    &:last-child {
+      border-bottom: none; // Elimina la línea de la última fila
+    }
+
+    .columna {
+      width: 50%;           // Cada columna ocupa el 50% del ancho
+      padding: 0 50px 0 50px;      // Solo padding en los laterales
+      text-align: left;     // Alinea el texto a la izquierda por defecto
+      font-size: 25px;
+
+      &:last-child {
+        text-align: right;  // Alinea la columna de precios a la derecha
+      }
+
+      .header {
+        font-weight: bold;
+        font-size: 25px;    // Tamaño del texto del encabezado
+        padding-bottom: 5px;
+      }
+
+      div {
+        font-size: 20px;    // Tamaño del texto de las filas
+      }
+    }
+  }
+}

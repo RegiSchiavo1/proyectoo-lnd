@@ -1,42 +1,46 @@
 @use "./../../../../public/styles/colores.scss";
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&display=swap');
 
-.encab-head{
-    font-size: 40px;
+
+.contenedor{
+    display: flex;
+    position: relative;
+    z-index: 2;
+    align-items: center;           // Alinea verticalmente los elementos
+    justify-content: space-between; // Distribuye el título y los links
+    padding: 0 50px;               // Agrega espacio en los laterales
+    
+}
+
+.encab-head {
+    font-size: 50px;
     margin-left: 25px;
     color: colores.$color-texto;
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
-    ;
-
-}
-
-header{
-    display:flex;
-    position: relative;
-    z-index: 2;
+    margin-top: 25px;
     align-items: center;
-    justify-content:space-between;
-    
 }
+
+
 
 nav {
     display: flex;
-    gap: 25px;
-    justify-content: space-between; 
-    align-items: center;
-    flex-direction: row;
-    margin-right: 50px; 
+    gap: 25px;                     // Espacio entre los enlaces
+    justify-content: flex-end;      // Empuja los enlaces hacia la derecha
+    align-items: center;            // Alinea verticalmente los enlaces
+    font-size: 25px;
+    
 }
-
 
 .links a {
     text-decoration: none;
-    display: wrap;
+    display: flex;                  // Cambia a flex para un mejor control de la alineación
     gap: 16px;
-    justify-content: space-between;
-    margin: 1px 90px 1px 1px;
+    align-items: center;            // Alinea los enlaces verticalmente
+    margin-top: 40px;                      // Elimina márgenes laterales
+    padding: 10px;                  // Agrega un poco de padding a los enlaces
     color: colores.$color-texto;
     transition: color 0.3s ease, text-shadow 0.3s ease;
 }

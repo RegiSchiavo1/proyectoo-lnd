@@ -47,7 +47,7 @@ input{
     width: 100%;
     height: 100%;
     background: transparent;
-    border: 2px solid colores.$color-base-claro;  
+    border: 2px solid colores.$color-texto-invertido-claro;  
     border-radius: 48px;
     outline: none;
     font-size: 20px;
@@ -118,7 +118,7 @@ input{
 .formulario .btn{
     padding: 20px 15px;
     background-color: colores.$color-principal-bajado;
-    color: colores.$color-base-claro;
+    color: colores.$color-texto-invertido-claro;
     border: none;
     border-radius: 48px;
     cursor: pointer;
@@ -155,7 +155,7 @@ input{
 
 .btn-3{
     width: 250px;
-    color: colores.$color-base-claro;
+    color: colores.$color-texto-invertido-claro;
     border-radius: 40px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;

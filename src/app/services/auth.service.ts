@@ -17,7 +17,11 @@ estaLogueado(): boolean{
  else
   return false;
 
-}
+} 
+  auth = (AuthService)
+ 
+
+
 Login(datosLogin:Login){
 return fetch("http://localhost:4000/login",{ //fetch se comunica con back end
   method:"POST",
@@ -37,4 +41,5 @@ return fetch("http://localhost:4000/login",{ //fetch se comunica con back end
     })
 })
 }
+
 }
