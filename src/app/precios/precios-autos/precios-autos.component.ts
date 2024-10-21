@@ -37,23 +37,23 @@ export class PreciosAutosComponent implements OnInit {
       // Mostrar el cuadro de diálogo SweetAlert2 para ingresar el nuevo precio
       const { value: nuevoPrecio } = await Swal.fire({
         title: "Ingrese el nuevo precio",
-        input: "number",
-        inputLabel: ` Ingrese el nuevo precio:`,
-        inputValue: this.preciosauto[precioKey].replace('$', ''),  // Mostrar el precio actual en el input sin el símbolo de dólar
-        showCancelButton: true,
-        inputValidator: (value) => {
+         input: "number",
+         inputLabel: ` Ingrese el nuevo precio:`,
+         inputValue: this.preciosauto[precioKey].replace('$', ''),  // Mostrar el precio actual en el input sin el símbolo de dólar
+          showCancelButton: true,
+         inputValidator: (value) => {
           // Validar que el valor no esté vacío
-          if (!value) {
-            return "Debes escribir algo!";  // Retorna el mensaje si está vacío
-          }
-          // Validar que el valor sea un número
-          const numberValue = parseFloat(value);
-          if (isNaN(numberValue) || numberValue <= 0) {
-            return "Debes ingresar un número válido!";  // Retorna el mensaje si no es un número
-          }
-          return null;  // Retorna null si todo está bien
-        }
-      });
+           if (!value) {
+             return "Debes escribir algo!";  // Retorna el mensaje si está vacío
+           }
+           // Validar que el valor sea un número
+           const numberValue = parseFloat(value);
+           if (isNaN(numberValue) || numberValue <= 0) {
+             return "Debes ingresar un número válido!";  // Retorna el mensaje si no es un número
+           }
+           return null;  // Retorna null si todo está bien
+         }
+       });
       
       // Si el usuario ingresa un nuevo precio
       if (nuevoPrecio) {

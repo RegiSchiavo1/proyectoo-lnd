@@ -55,21 +55,21 @@ export class PreciosMotosComponent implements OnInit {
         }
       });
       
-      // Si el usuario ingresa un nuevo precio
-      if (nuevoPrecio) {
-        // Actualizar el precio en el objeto
-        this.preciosmoto[precioKey] = `$${nuevoPrecio}`;  // Agregar el símbolo de dólar al nuevo precio
+    //   // Si el usuario ingresa un nuevo precio
+       if (nuevoPrecio) {
+         // Actualizar el precio en el objeto
+         this.preciosmoto[precioKey] = `$${nuevoPrecio}`;  // Agregar el símbolo de dólar al nuevo precio
   
-        // Mostrar un mensaje de confirmación
-        Swal.fire(`El nuevo precio es ${nuevoPrecio}`);
+         // Mostrar un mensaje de confirmación
+         Swal.fire(`El nuevo precio es ${nuevoPrecio}`);
   
-        // Guardar en localStorage
-        localStorage.setItem('preciosmoto', JSON.stringify(this.preciosmoto));
-      }
-    } catch (error) {
-      // Manejar errores en caso de que falle la obtención de la IP o el SweetAlert
-      console.error("Error al obtener la IP o mostrar la alerta", error);
-      Swal.fire('Error', 'No se pudo obtener la IP o procesar la solicitud', 'error');
-    }
+         // Guardar en localStorage
+         localStorage.setItem('preciosmoto', JSON.stringify(this.preciosmoto));
+       }
+     } catch (error) {
+       // Manejar errores en caso de que falle la obtención de la IP o el SweetAlert
+       console.error("Error al obtener la IP o mostrar la alerta", error);
+       Swal.fire('Error', 'No se pudo obtener la IP o procesar la solicitud', 'error');
+     }
   }
 }  
