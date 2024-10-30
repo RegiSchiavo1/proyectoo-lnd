@@ -1,75 +1,59 @@
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { HeaderComponent } from "../../components/header/header.component";
+import { PreciosService } from '../../services/precios.service';
 import Swal from 'sweetalert2';
+import { Tarifa } from '../../interfaces/tarifas';
+import { HeaderComponent } from '../../components/header/header.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-precios-autos',
-  standalone: true,
-  imports: [HeaderComponent],
+  standalone:true,
+  imports:[HeaderComponent,FormsModule,CommonModule],
   templateUrl: './precios-autos.component.html',
-  styleUrls: ['./precios-autos.component.scss']
+  styleUrls: ['./precios-autos.component.scss'],
+  
 })
 export class PreciosAutosComponent implements OnInit {
 
-  preciosauto: any = {
-    precio1: "$500",
-    precio2: "$800",
-    precio3: "$1,500",
-    precio4: "$2,500",
-    precio5: "$4,000",
-    precio6: "$6,000",
-    precio7: "$8,000",
-    precio8: "$10,000"
-  };
+  tarifas: Tarifa[] = []; // Define el tipo con la interfaz, si la decides usar
 
-  // Al cargar el componente, verificar si hay datos en localStorage
+  constructor(private preciosService: PreciosService) {}
+
   ngOnInit() {
-    const storedPrecios = localStorage.getItem('precios');
-    if (storedPrecios) {
-      this.preciosauto = JSON.parse(storedPrecios);
-    }
+    this.preciosService.ObtenerTarifas()
+      .then((data: Tarifa[]) => {
+        this.tarifas = data;
+        console.log('Tarifas cargadas:',this.tarifas)
+      })
+      .catch(error => console.error('Error al cargar tarifas:', error));
   }
 
-  async actualizar(precioKey: string) {
-    
-    try {
-      
-      // Mostrar el cuadro de diálogo SweetAlert2 para ingresar el nuevo precio
-      const { value: nuevoPrecio } = await Swal.fire({
-        title: "Ingrese el nuevo precio",
-         input: "number",
-         inputLabel: ` Ingrese el nuevo precio:`,
-         inputValue: this.preciosauto[precioKey].replace('$', ''),  // Mostrar el precio actual en el input sin el símbolo de dólar
-          showCancelButton: true,
-         inputValidator: (value) => {
-          // Validar que el valor no esté vacío
-           if (!value) {
-             return "Debes escribir algo!";  // Retorna el mensaje si está vacío
-           }
-           // Validar que el valor sea un número
-           const numberValue = parseFloat(value);
-           if (isNaN(numberValue) || numberValue <= 0) {
-             return "Debes ingresar un número válido!";  // Retorna el mensaje si no es un número
-           }
-           return null;  // Retorna null si todo está bien
-         }
-       });
-      
-      // Si el usuario ingresa un nuevo precio
-      if (nuevoPrecio) {
-        // Actualizar el precio en el objeto
-        this.preciosauto[precioKey] = `$${nuevoPrecio}`;  // Agregar el símbolo de dólar al nuevo precio
-  
-        // Mostrar un mensaje de confirmación
-        Swal.fire(`El nuevo precio es ${nuevoPrecio}`);
-  
-        // Guardar en localStorage
-        localStorage.setItem('precios', JSON.stringify(this.preciosauto));
+  actualizar(id: string) {
+    Swal.fire({
+      title: 'Ingrese el nuevo precio',
+      input: 'number',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) return 'Debes escribir algo!';
+        const numberValue = parseFloat(value);
+        if (isNaN(numberValue) || numberValue <= 0) return 'Debes ingresar un número válido!';
+        return null;
       }
-    } catch (error) {
-      // Manejar errores en caso de que falle la obtención de la IP o el SweetAlert
-      console.error("Error al obtener la IP o mostrar la alerta", error);
-      Swal.fire('Error', 'No se pudo obtener la IP o procesar la solicitud', 'error');
-    }
+    }).then(result => {
+      if (result.value) {
+        const nuevoPrecio = parseFloat(result.value);
+        
+        this.preciosService.actualizarTarifa(id, nuevoPrecio)
+          .then(updatedTarifa => {
+            // Actualizar el precio en la tarifa local
+            const index = this.tarifas.findIndex(tarifa => tarifa.id === id);
+            if (index !== -1) this.tarifas[index].valor = `$${nuevoPrecio}`;
+            Swal.fire(`El nuevo precio es $${nuevoPrecio}`);
+          })
+          .catch(error => console.error('Error al actualizar tarifa:', error));
+      }
+    });
   }
-}  
+}

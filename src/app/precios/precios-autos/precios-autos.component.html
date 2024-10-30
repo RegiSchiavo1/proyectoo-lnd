@@ -1,95 +1,27 @@
- 
 <app-header></app-header>
 
 <div class="tabla">
 
     <!-- Fila de encabezados -->
     <div class="fila">
-        <!-- Columna de Tiempo -->
         <div class="columna">
             <div class="header">Tiempo</div>
         </div>
-
-        <!-- Columna de Precio -->
         <div class="columna">
             <div class="header">Precio</div>
         </div>
-
-        <!-- Columna Nueva -->
         <div class="columna">
             <div class="header">Acciones</div>
         </div>
     </div>
 
-    <!-- Fila 1 -->
-    <div class="fila">
-        <div class="columna">1/2 hora</div>
-        <div class="columna">{{preciosauto.precio1}}</div>
+    <!-- Fila de datos generada dinámicamente -->
+    <div class="fila" *ngFor="let tarifa of tarifas">
+        <div class="columna">{{ tarifa.descripcion }}</div>
+        <div class="columna">{{ tarifa.valor }}</div>
         <div class="columna">
-            <i class='bx bxs-edit-alt' (click)="actualizar('precio1')"></i>
-        </div>
-    </div>
-
-    <!-- Fila 2 -->
-    <div class="fila">
-        <div class="columna">1 hora</div>
-        <div class="columna">{{preciosauto.precio2}}</div>
-        <div class="columna">
-            <i class='bx bxs-edit-alt' (click)="actualizar('precio2')"></i>
-        </div>
-    </div>
-
-    <!-- Fila 3 -->
-    <div class="fila">
-        <div class="columna">3 horas</div>
-        <div class="columna">{{preciosauto.precio3}}</div>
-        <div class="columna">
-            <i class='bx bxs-edit-alt' (click)="actualizar('precio3')"></i>
-        </div>
-    </div>
-
-    <!-- Fila 4 -->
-    <div class="fila">
-        <div class="columna">5 horas</div>
-        <div class="columna">{{preciosauto.precio4}}</div>
-        <div class="columna">
-            <i class='bx bxs-edit-alt' (click)="actualizar('precio4')"></i>
-        </div>
-    </div>
-
-    <!-- Fila 5 -->
-    <div class="fila">
-        <div class="columna">8 horas</div>
-        <div class="columna">{{preciosauto.precio5}}</div>
-        <div class="columna">
-            <i class='bx bxs-edit-alt' (click)="actualizar('precio5')"></i>
-        </div>
-    </div>
-
-    <!-- Fila 6 -->
-    <div class="fila">
-        <div class="columna">10 horas</div>
-        <div class="columna">{{preciosauto.precio6}}</div>
-        <div class="columna">
-            <i class='bx bxs-edit-alt' (click)="actualizar('precio6')"></i>
-        </div>
-    </div>
-
-    <!-- Fila 7 -->
-    <div class="fila">
-        <div class="columna">12 horas</div>
-        <div class="columna">{{preciosauto.precio7}}</div>
-        <div class="columna">
-            <i class='bx bxs-edit-alt' (click)="actualizar('precio7')"></i>
-        </div>
-    </div>
-
-    <!-- Fila 8 -->
-    <div class="fila">
-        <div class="columna">24 horas</div>
-        <div class="columna">{{preciosauto.precio8}}</div>
-        <div class="columna">
-            <i class='bx bxs-edit-alt' (click)="actualizar('precio8')"></i>
+            <i class='bx bxs-edit-alt' (click)="actualizar(tarifa.id)"></i>
         </div>
     </div>
 </div>
+

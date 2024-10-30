@@ -31,7 +31,7 @@ export class EstacionamientosService {
 
     estacionarAuto(patenteAuto:string, idCochera:number){
     
-    return fetch('localhost:4000/estacionamientos/abrir',{
+    return fetch('http://localhost:4000/estacionamientos/abrir',{
       method: 'POST',
       headers:{
         Authorization: "Bearer " + (this.auth.getToken() ?? ''),
@@ -43,4 +43,6 @@ export class EstacionamientosService {
       })
     }).then(r => r.json());
   }
+
+
 }

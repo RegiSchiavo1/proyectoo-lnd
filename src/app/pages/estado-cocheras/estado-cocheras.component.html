@@ -1,33 +1,58 @@
 <app-header></app-header>
 
 <div id="tabla">
-    <div id="header-tabla">
-        <div>{{header.nro}}</div>
-        <div>{{header.disponibilidad}}</div>
-        <div>{{header.ingreso}}</div>
-        <div>{{header.acciones}}</div>
+  <div id="header-tabla">
+    <div>{{ header.nro }}</div>
+    <div>{{ header.disponibilidad }}</div>
+    <div>{{ header.ingreso }}</div>
+    <div>{{ header.acciones }}</div>
+  </div>
+
+  @for (fila of filas; track $index) {
+    <div class="fila" 
+         (click)="fila.deshabilitada === 0 && !fila.activo ? abrirModalNuevoEstacionamiento(fila.id) : null">
+      <div>{{ $index + 1 }}</div>
+
+      <!-- Estado de disponibilidad de la cochera -->
+      @if (fila.activo) {
+        <div>{{ fila.activo.patente }}</div>
+      } @else if (fila.deshabilitada) {
+        <div><span class="no-disponible">No disponible</span></div>
+      } @else {
+        <div><span class="Disponible">Disponible</span></div>
+      }
+
+      <!-- Hora de ingreso si está activo -->
+      <div>{{ fila.activo?.horaIngreso }}</div>
+
+      <!-- Botones de acciones -->
+      <div class="boton-borrar">
+        <i (click)="eliminarFila(fila.id); $event.stopPropagation()" class="bx bx-trash"></i>
+        <i (click)="cambiarDisponibilidadCochera($index); $event.stopPropagation()" class="bx bxs-check-circle"></i>
+      </div>
     </div>
-    <ng-container *ngFor="let fila of filas; let i = index">
-        <div class="fila" (click)="abrirModalNuevoEstacionamiento(fila.id)"> <!--modifica una cochera -->
-            <div>{{fila.id}}</div>
-            <div [ngClass]="{'no-disponible': fila.deshabilitada === 1, 'disponible': fila.deshabilitada === 0}">
-                {{fila.deshabilitada ? "no disponible" : "disponible"}}
-            </div>
-            <div>{{fila.descripcion}}</div>
-            <div class="boton-borrar">
-                <!-- Agregar $event.stopPropagation() para detener la propagación del clic -->
-                <i (click)="eliminarFila(fila.id); $event.stopPropagation()" class='bx bx-trash'></i>
-                <i (click)="cambiarDisponibilidadCochera(i); $event.stopPropagation()" class='bx bxs-check-circle'></i>
-            </div>
-        </div>
-        
-    </ng-container>
-    
-    
-    
+  }
 </div>
 
-<div class="boton-agregar">
+
+
+
+        
+        <!-- <div class="fila" (click)="abrirModalNuevoEstacionamiento(fila.id)"> modifica una cochera 
+              <div>{{fila.id}}</div>  -->
+            <!-- <div [ngClass]="{'no-disponible': fila.deshabilitada === 1, 'disponible': fila.deshabilitada === 0}"> -->
+                <!-- {{fila.deshabilitada ? "no disponible" : "disponible"}} -->
+            <!-- </div> -->
+            <!-- <div>{{fila.descripcion}}</div> -->
+            <!-- <div class="boton-borrar"> -->
+                <!-- Agregar $event.stopPropagation() para detener la propagación del clic --> 
+                <!-- <i (click)="eliminarFila(fila.id); $event.stopPropagation()" class='bx bx-trash'></i>
+                <i (click)="cambiarDisponibilidadCochera($index); $event.stopPropagation()" class='bx bxs-check-circle'></i>
+            </div> -->
+        <!-- </div>  -->
+
+
+<!-- <div class="boton-agregar">
     <button id="boton" (click)="MostrarCochera()">Mostrar cocheras</button>
-</div>
+</div> -->
 
