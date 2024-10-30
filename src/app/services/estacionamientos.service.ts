@@ -28,5 +28,19 @@ export class EstacionamientosService {
       return buscado;
     });
   }
-  
+
+    estacionarAuto(patenteAuto:string, idCochera:number){
+    
+    return fetch('localhost:4000/estacionamientos/abrir',{
+      method: 'POST',
+      headers:{
+        Authorization: "Bearer " + (this.auth.getToken() ?? ''),
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+          patente: patenteAuto,
+          idCochera: idCochera
+      })
+    }).then(r => r.json());
+  }
 }

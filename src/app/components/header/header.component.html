@@ -3,14 +3,13 @@
             <h1 class="encab-head">PARKING APP</h1>
         </div>
         <nav class="links">
-            
-                
-                <a [routerLink]="['/estado-cocheras']" routerLinkActive="activa">ESTADO DE COCHERAS</a>
-                <a [routerLink]="['/reportes']" routerLinkActive="activa">REPORTES</a>
-                <!-- <a [routerLink]="['/precios']" routerLinkActive="activa">PRECIOS</a> -->
-                  <a  (click)="elegirVehiculo()"> Precios</a> 
-                <a [routerLink]="['/login']"> <i class='bx bxs-user' style='color:#1c1c1c'></i> </a>
-
-              
-        </nav>      
-</header>
+            <a [routerLink]="['/estado-cocheras']" routerLinkActive="activa">ESTADO DE COCHERAS</a>
+            <a [routerLink]="['/reportes']" routerLinkActive="activa">REPORTES</a>
+            <!-- <a [routerLink]="['/precios']" routerLinkActive="activa">PRECIOS</a> -->
+            <a (click)="elegirVehiculo()"> Precios</a>
+            <a [routerLink]="['/login']" (click)="Logout()"> 
+                <i class='bx bxs-user' style='color:#1c1c1c' (click)="Logout()"></i> 
+            </a>
+        </nav>
+    </header>
+    

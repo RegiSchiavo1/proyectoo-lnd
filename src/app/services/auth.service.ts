@@ -41,6 +41,10 @@ return fetch("http://localhost:4000/login",{ //fetch se comunica con back end
 })
 }
 
+Logout() {
+  localStorage.removeItem("token");
+}
+
 
 
 
