@@ -43,23 +43,66 @@ export class EstacionamientosService {
     }).then(r => r.json());
   }
 
-  liberarCochera(idEstacionamiento: number) {
-    return fetch('http://localhost:4000/estacionamientos/cerrar', {
-      method: 'POST',
+  cerrarEstacionamiento(patenteAuto: string, idCochera: number) {
+    return fetch("http://localhost:4000/estacionamientos/cerrar", {
+      method: "PATCH",
       headers: {
-        Authorization: "Bearer " + (this.auth.getToken() ?? ''),
-        'Content-Type': 'application/json'
+        Authorization: "Bearer " + (this.auth.getToken() ?? ""),
+        "content-type": "application/json"
       },
       body: JSON.stringify({
-        idEstacionamiento: idEstacionamiento,
-        horaEgreso: new Date().toISOString() // Marca la hora de egreso actual
+        patente: patenteAuto,
+        idCochera: idCochera,
+        idUsuarioIngreso: "admin",
       })
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Error al cerrar el estacionamiento');
-      }
-      return response.json();
+    })
+    .then(r => {
+      if (!r.ok) throw new Error("Error en la respuesta del servidor");
+      return r.json();
+    })
+    .catch(error => {
+      console.error("Error en la solicitud de cierre de estacionamiento:", error);
+      throw new Error("No se pudo procesar la solicitud del servidor");
     });
   }
+  
+
+  // cerrarEstacionamiento(patenteAuto: string, idCochera:number) {
+  //   return fetch("http://localhost:4000/estacionamientos/cerrar",{
+  //   method: "PATCH",
+  //   headers: {
+  //   Authorization: "Bearer " + (this.auth.getToken() ?? ""),
+  //   "content-type": "application/json"
+  //   },
+  //   body: JSON.stringify({
+  //     patente: patenteAuto, 
+  //     idCochera: idCochera, 
+  //     idUsuarioIngreso: "admin",
+  //   })
+  // }).then(r => r.json());
+  // }
+
+
+
+
+
+  // liberarCochera(idEstacionamiento: number) {
+  //   return fetch('http://localhost:4000/estacionamientos/cerrar', {
+  //     method: 'POST',
+  //     headers: {
+  //       Authorization: "Bearer " + (this.auth.getToken() ?? ''),
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       idEstacionamiento: idEstacionamiento,
+  //       horaEgreso: new Date().toISOString() // Marca la hora de egreso actual
+  //     })
+  //   }).then(response => {
+  //     if (!response.ok) {
+  //       throw new Error('Error al cerrar el estacionamiento');
+  //     }
+  //     return response.json();
+  //   });
+  // }
 }
 

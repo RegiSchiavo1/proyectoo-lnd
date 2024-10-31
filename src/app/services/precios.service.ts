@@ -46,34 +46,34 @@ export class PreciosService {
     });
   }
 
-  // Método para calcular la tarifa basada en el tiempo transcurrido
-  calcularTarifa(estacionamiento: Estacionamiento): Promise<number> {
-    const { horaIngreso, horaEgreso } = estacionamiento;
+  // // Método para calcular la tarifa basada en el tiempo transcurrido
+  // calcularTarifa(estacionamiento: Estacionamiento): Promise<number> {
+  //   const { horaIngreso, horaEgreso } = estacionamiento;
   
-    if (!horaIngreso) {
-      return Promise.reject("La hora de ingreso no está definida.");
-    }
+  //   if (!horaIngreso) {
+  //     return Promise.reject("La hora de ingreso no está definida.");
+  //   }
   
-    // Convierte las horas de ingreso y egreso a objetos Date para calcular la diferencia de tiempo
-    const ingreso = new Date(horaIngreso);
-    const egreso = horaEgreso ? new Date(horaEgreso) : new Date();
+  //   // Convierte las horas de ingreso y egreso a objetos Date para calcular la diferencia de tiempo
+  //   const ingreso = new Date(horaIngreso);
+  //   const egreso = horaEgreso ? new Date(horaEgreso) : new Date();
   
-    // Calcula la diferencia en milisegundos y convierte a horas, redondeando a dos decimales
-    const horasTranscurridas = Math.max(
-      (egreso.getTime() - ingreso.getTime()) / (1000 * 60 * 60),
-      0
-    );
+  //   // Calcula la diferencia en milisegundos y convierte a horas, redondeando a dos decimales
+  //   const horasTranscurridas = Math.max(
+  //     (egreso.getTime() - ingreso.getTime()) / (1000 * 60 * 60),
+  //     0
+  //   );
   
-    // Consulta la tarifa base y calcula el costo
-    return this.obtenerTarifas().then((tarifas) => {
-      const tarifaBase = tarifas.find(tarifa => tarifa.descripcion === "tarifa por hora");
-      if (!tarifaBase || isNaN(parseFloat(tarifaBase.valor))) {
-        throw new Error("No se encontró la tarifa base o su valor es inválido");
-      }
+  //   // Consulta la tarifa base y calcula el costo
+  //   return this.obtenerTarifas().then((tarifas) => {
+  //     const tarifaBase = tarifas.find(tarifa => tarifa.descripcion === "tarifa por hora");
+  //     if (!tarifaBase || isNaN(parseFloat(tarifaBase.valor))) {
+  //       throw new Error("No se encontró la tarifa base o su valor es inválido");
+  //     }
   
-      const costo = parseFloat(tarifaBase.valor) * horasTranscurridas;
-      return parseFloat(costo.toFixed(2)); // Redondea a dos decimales
-    });
-  }
+  //     const costo = parseFloat(tarifaBase.valor) * horasTranscurridas;
+  //     return parseFloat(costo.toFixed(2)); // Redondea a dos decimales
+  //   });
+  // }
   
 }

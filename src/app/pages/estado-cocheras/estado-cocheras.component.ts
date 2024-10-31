@@ -146,48 +146,58 @@ export class EstadoCocherasComponent {
     });
   }
 
-  calcularTarifa(estacionamiento: Estacionamiento): Promise<number> {
-    return this.precios.calcularTarifa(estacionamiento);
-  }
-
+  //  calcularTarifa(estacionamiento: Estacionamiento): Promise<number> {
+  //    return this.precios.calcularTarifa(estacionamiento);
+  //  }
   abrirModalCalculoTarifa(cochera: Cochera & { activo: Estacionamiento | null }) {
-    if (!cochera.activo) return; // Asegura que sólo proceda si `activo` no es `null`
+    if (!cochera.activo) return;
   
     Swal.fire({
-      title: "¿Deseas calcular la tarifa de esta cochera?",
-      text: "Este cálculo incluye el tiempo transcurrido y el precio de la tarifa.",
-      icon: "info",
+      title: "¿Deseas dejar de utilizar esta cochera?",
+      text: "Esto calculará el costo final y liberará la cochera.",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Calcular tarifa"
+      confirmButtonText: "Sí, calcular y cerrar",
+      cancelButtonText: "Cancelar"
     }).then((result) => {
-      if (result.isConfirmed) {
-        this.calcularTarifa(cochera.activo!).then((tarifa) => {  // Usa `!` para indicar que `activo` es Estacionamiento
-          Swal.fire({
-            title: "Cálculo completado",
-            text: `La tarifa calculada es: $${tarifa}`,
-            icon: "success"
+      if (result.isConfirmed && cochera.activo) {
+        this.estacionamientos.cerrarEstacionamiento(cochera.activo.patente, cochera.id)
+          .then(response => {
+            // Asegúrate de acceder a los campos correctos
+            if (response && response.message && response.costo != null) {
+              Swal.fire({
+                title: "Estacionamiento cerrado",
+                text: `La tarifa total es: $${response.costo}`, // Usa response.costo
+                icon: "success"
+              });
+              this.getCocheras(); // Refresca las cocheras
+            } else {
+              throw new Error("Respuesta del servidor incompleta o incorrecta");
+            }
+          })
+          .catch(error => {
+            console.error("Error al cerrar el estacionamiento:", error);
+            Swal.fire("Error", "No se pudo cerrar el estacionamiento. Inténtalo nuevamente.", "error");
           });
-          this.liberarCochera(cochera.activo!.id);
-        }).catch(error => {
-          Swal.fire("Error", "No se pudo calcular la tarifa. Inténtalo nuevamente.", "error");
-        });
       }
     });
   }
   
+
+  
+  
+  
   
 
-  liberarCochera(idEstacionamiento: number) {
-    this.estacionamientos.liberarCochera(idEstacionamiento).then(response => {
-      Swal.fire("Éxito", "La cochera ha sido liberada correctamente", "success");
-      this.getCocheras();
-    }).catch(error => {
-      Swal.fire("Error", "No se pudo liberar la cochera. Inténtalo nuevamente.", "error");
-      console.error('Error al liberar la cochera:', error);
-    });
-  }
+  // liberarCochera(idEstacionamiento: number) {
+  //   this.estacionamientos.liberarCochera(idEstacionamiento).then(response => {
+  //     Swal.fire("Éxito", "La cochera ha sido liberada correctamente", "success");
+  //     this.getCocheras();
+  //   }).catch(error => {
+  //     Swal.fire("Error", "No se pudo liberar la cochera. Inténtalo nuevamente.", "error");
+  //     console.error('Error al liberar la cochera:', error);
+  //   });
+  // }
 }
 
 
