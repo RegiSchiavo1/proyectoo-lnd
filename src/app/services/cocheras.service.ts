@@ -6,7 +6,7 @@ import { Cochera } from '../interfaces/cocheras';
   providedIn: 'root'
 })
 export class CocherasService {
-
+  
   auth = inject(AuthService);
 
   cocheras(): Promise<Cochera[]> {
@@ -27,10 +27,20 @@ export class CocherasService {
       }
     });
   }
-  
+
   deshabilitarCochera(cochera: Cochera) {
     return fetch(`http://localhost:4000/cocheras/${cochera.id}/disable`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.auth.getToken()}`
+      }
+    });
+  }
+
+  eliminarCochera(idCochera: number): Promise<Response> {
+    return fetch(`http://localhost:4000/cocheras/${idCochera}`, {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.auth.getToken()}`

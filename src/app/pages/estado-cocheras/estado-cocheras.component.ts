@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 import { EstacionamientosService } from '../../services/estacionamientos.service';
 import { CocherasService } from '../../services/cocheras.service';
+import { PreciosService } from '../../services/precios.service';
 import { Estacionamiento } from '../../interfaces/estacionamiento';
 
 @Component({
@@ -14,7 +15,7 @@ import { Estacionamiento } from '../../interfaces/estacionamiento';
   standalone: true,
   imports: [RouterModule, CommonModule, HeaderComponent],
   templateUrl: './estado-cocheras.component.html',
-  styleUrls: ['./estado-cocheras.component.scss'], 
+  styleUrls: ['./estado-cocheras.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class EstadoCocherasComponent {
@@ -27,12 +28,13 @@ export class EstadoCocherasComponent {
     acciones: ""
   };
 
-  filas: (Cochera & { activo: Estacionamiento | null })[] = []; 
+  filas: (Cochera & { activo: Estacionamiento | null })[] = [];
 
   auth = inject(AuthService);
   estacionamientos = inject(EstacionamientosService);
   cocheras = inject(CocherasService);
-  
+  precios = inject(PreciosService);
+
   ngOnInit() {
     this.getCocheras();
   }
@@ -71,22 +73,10 @@ export class EstadoCocherasComponent {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:4000/cocheras/${idCochera}`, {  
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: "Bearer " + localStorage.getItem('token')
-          }
-        })
-        .then(response => {
-          if (response.ok) {
-            swalWithBootstrapButtons.fire("Genial!", "La cochera se borró con éxito!", "success");
-            this.filas = this.filas.filter(f => f.id !== idCochera);
-          } else {
-            swalWithBootstrapButtons.fire("Error", "NO SE PUDO BORRAR LA COCHERA", "error");
-          }
-        })
-        .catch(error => {
+        this.cocheras.eliminarCochera(idCochera).then(() => {
+          swalWithBootstrapButtons.fire("Genial!", "La cochera se borró con éxito!", "success");
+          this.filas = this.filas.filter(f => f.id !== idCochera);
+        }).catch(error => {
           console.error('Error al borrar la cochera:', error);
           swalWithBootstrapButtons.fire("Error", "Ocurrió un error al borrar la cochera", "error");
         });
@@ -96,11 +86,16 @@ export class EstadoCocherasComponent {
     });
   }
 
-
-
-
   cambiarDisponibilidadCochera(idCochera: number) {
-    const cochera = this.filas[idCochera]; // Accede a la cochera actual
+    const cochera = this.filas.find(c => c.id === idCochera);
+    if (!cochera) return;
+  
+    // Si la cochera tiene un estacionamiento activo, abre el modal de cálculo de tarifa
+    if (cochera.activo) {
+      this.abrirModalCalculoTarifa(cochera as Cochera & { activo: Estacionamiento });
+      return; // Sale del método para que no continúe con el cambio de disponibilidad
+    }
+  
     const estadoActual = cochera.deshabilitada ? 'no disponible' : 'disponible';
     const proximoEstado = cochera.deshabilitada ? 'disponible' : 'no disponible';
   
@@ -112,25 +107,23 @@ export class EstadoCocherasComponent {
       denyButtonText: "No cambiar"
     }).then((result) => {
       if (result.isConfirmed) {
-        // Llama a habilitar o deshabilitar en base al estado actual
         const action = cochera.deshabilitada 
           ? this.cocheras.habilitarCochera(cochera) 
           : this.cocheras.deshabilitarCochera(cochera);
   
         action.then(() => {
           Swal.fire("¡Cambios guardados!", `La cochera ahora está ${proximoEstado}.`, "success");
-          this.getCocheras(); // Refresca las cocheras después de realizar el cambio
-        })
-        .catch(error => {
+          this.getCocheras();
+        }).catch(error => {
           console.error('Error al cambiar la disponibilidad de la cochera:', error);
           Swal.fire("Error", "Ocurrió un error al intentar cambiar la disponibilidad.", "error");
         });
-        
       } else if (result.isDenied) {
         Swal.fire("Los cambios no fueron guardados", "", "info");
       }
     });
   }
+  
   
 
   abrirModalNuevoEstacionamiento(idCochera: number) {
@@ -152,4 +145,51 @@ export class EstadoCocherasComponent {
       }
     });
   }
+
+  calcularTarifa(estacionamiento: Estacionamiento): Promise<number> {
+    return this.precios.calcularTarifa(estacionamiento);
+  }
+
+  abrirModalCalculoTarifa(cochera: Cochera & { activo: Estacionamiento | null }) {
+    if (!cochera.activo) return; // Asegura que sólo proceda si `activo` no es `null`
+  
+    Swal.fire({
+      title: "¿Deseas calcular la tarifa de esta cochera?",
+      text: "Este cálculo incluye el tiempo transcurrido y el precio de la tarifa.",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Calcular tarifa"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.calcularTarifa(cochera.activo!).then((tarifa) => {  // Usa `!` para indicar que `activo` es Estacionamiento
+          Swal.fire({
+            title: "Cálculo completado",
+            text: `La tarifa calculada es: $${tarifa}`,
+            icon: "success"
+          });
+          this.liberarCochera(cochera.activo!.id);
+        }).catch(error => {
+          Swal.fire("Error", "No se pudo calcular la tarifa. Inténtalo nuevamente.", "error");
+        });
+      }
+    });
+  }
+  
+  
+
+  liberarCochera(idEstacionamiento: number) {
+    this.estacionamientos.liberarCochera(idEstacionamiento).then(response => {
+      Swal.fire("Éxito", "La cochera ha sido liberada correctamente", "success");
+      this.getCocheras();
+    }).catch(error => {
+      Swal.fire("Error", "No se pudo liberar la cochera. Inténtalo nuevamente.", "error");
+      console.error('Error al liberar la cochera:', error);
+    });
+  }
 }
+
+
+
+

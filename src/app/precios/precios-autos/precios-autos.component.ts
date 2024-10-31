@@ -22,7 +22,7 @@ export class PreciosAutosComponent implements OnInit {
   constructor(private preciosService: PreciosService) {}
 
   ngOnInit() {
-    this.preciosService.ObtenerTarifas()
+    this.preciosService.obtenerTarifas()
       .then((data: Tarifa[]) => {
         this.tarifas = data;
         console.log('Tarifas cargadas:',this.tarifas)
