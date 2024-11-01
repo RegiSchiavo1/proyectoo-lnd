@@ -7,35 +7,12 @@
         <div>Usos</div>
         <div>Cobrado</div>
     </div>
-    <div class="fila">
-        <div>1</div>
-        <div>10/2024</div>
-        <div>808</div>
-        <div>$879</div>
+    @for (reporte of reportes; track $index) {
+    <div  class="fila">
+        <div>{{ $index + 1 }}</div>
+        <div>{{ reporte.mes }}</div>
+        <div>{{ reporte.usos }}</div>
+        <div>${{ reporte.cobro }}</div>
     </div>
-    <div class="fila">
-        <div>2</div>
-        <div>10/2024</div>
-        <div>502</div>
-        <div>$583</div>
-    </div>
-    <div class="fila">
-        <div>3</div>
-        <div>10/2024</div>
-        <div>808</div>
-        <div>$879</div>
-    </div>
-    <div class="fila">
-        <div>4</div>
-        <div>10/2024</div>
-        <div>502</div>
-        <div>$583</div>
-    </div>
-    <div class="fila">
-        <div>5</div>
-        <div>10/2024</div>
-        <div>808</div>
-        <div>$879</div>
-    </div>
-
+}
 </div>

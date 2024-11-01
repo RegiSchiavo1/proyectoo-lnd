@@ -28,7 +28,8 @@
       <!-- Botones de acciones -->
       <div class="boton-borrar">
         <i (click)="eliminarFila(fila.id); $event.stopPropagation()" class="bx bx-trash"></i>
-        <i (click)="cambiarDisponibilidadCochera($index); $event.stopPropagation()" class="bx bxs-check-circle"></i>
+        <i (click)="habilitarCochera($index); $event.stopPropagation()" class="bx bxs-check-circle"></i>
+        <i (click)="deshabilitarCochera($index); $event.stopPropagation()"class='bx bxs-x-circle'></i>
       </div>
     </div>
   }

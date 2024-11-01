@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Estacionamiento } from '../interfaces/estacionamiento';
+import { Estacionamiento } from '../interfaces/estacionamiento'; // Asegúrate de que esta ruta sea correcta
 
 @Injectable({
   providedIn: 'root'
@@ -65,44 +65,4 @@ export class EstacionamientosService {
       throw new Error("No se pudo procesar la solicitud del servidor");
     });
   }
-  
-
-  // cerrarEstacionamiento(patenteAuto: string, idCochera:number) {
-  //   return fetch("http://localhost:4000/estacionamientos/cerrar",{
-  //   method: "PATCH",
-  //   headers: {
-  //   Authorization: "Bearer " + (this.auth.getToken() ?? ""),
-  //   "content-type": "application/json"
-  //   },
-  //   body: JSON.stringify({
-  //     patente: patenteAuto, 
-  //     idCochera: idCochera, 
-  //     idUsuarioIngreso: "admin",
-  //   })
-  // }).then(r => r.json());
-  // }
-
-
-
-
-
-  // liberarCochera(idEstacionamiento: number) {
-  //   return fetch('http://localhost:4000/estacionamientos/cerrar', {
-  //     method: 'POST',
-  //     headers: {
-  //       Authorization: "Bearer " + (this.auth.getToken() ?? ''),
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       idEstacionamiento: idEstacionamiento,
-  //       horaEgreso: new Date().toISOString() // Marca la hora de egreso actual
-  //     })
-  //   }).then(response => {
-  //     if (!response.ok) {
-  //       throw new Error('Error al cerrar el estacionamiento');
-  //     }
-  //     return response.json();
-  //   });
-  // }
 }
-

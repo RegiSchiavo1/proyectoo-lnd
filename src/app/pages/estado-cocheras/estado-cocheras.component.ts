@@ -86,36 +86,60 @@ export class EstadoCocherasComponent {
     });
   }
 
-  cambiarDisponibilidadCochera(idCochera: number) {
+  habilitarCochera(idCochera: number) {
     const cochera = this.filas.find(c => c.id === idCochera);
     if (!cochera) return;
   
     // Si la cochera tiene un estacionamiento activo, abre el modal de cálculo de tarifa
     if (cochera.activo) {
       this.abrirModalCalculoTarifa(cochera as Cochera & { activo: Estacionamiento });
-      return; // Sale del método para que no continúe con el cambio de disponibilidad
+      return;
     }
   
-    const estadoActual = cochera.deshabilitada ? 'no disponible' : 'disponible';
-    const proximoEstado = cochera.deshabilitada ? 'disponible' : 'no disponible';
-  
     Swal.fire({
-      title: `La cochera está ${estadoActual}. ¿Te gustaría cambiarla a ${proximoEstado}?`,
+      title: "La cochera está no disponible. ¿Te gustaría cambiarla a disponible?",
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: "Cambiar",
       denyButtonText: "No cambiar"
     }).then((result) => {
       if (result.isConfirmed) {
-        const action = cochera.deshabilitada 
-          ? this.cocheras.habilitarCochera(cochera) 
-          : this.cocheras.deshabilitarCochera(cochera);
-  
-        action.then(() => {
-          Swal.fire("¡Cambios guardados!", `La cochera ahora está ${proximoEstado}.`, "success");
+        this.cocheras.habilitarCochera(cochera).then(() => {
+          Swal.fire("¡Cambios guardados!", "La cochera ahora está disponible.", "success");
           this.getCocheras();
         }).catch(error => {
-          console.error('Error al cambiar la disponibilidad de la cochera:', error);
+          console.error('Error al habilitar la cochera:', error);
+          Swal.fire("Error", "Ocurrió un error al intentar cambiar la disponibilidad.", "error");
+        });
+      } else if (result.isDenied) {
+        Swal.fire("Los cambios no fueron guardados", "", "info");
+      }
+    });
+  }
+  
+  deshabilitarCochera(idCochera: number) {
+    const cochera = this.filas.find(c => c.id === idCochera);
+    if (!cochera) return;
+  
+    // Si la cochera tiene un estacionamiento activo, abre el modal de cálculo de tarifa
+    if (cochera.activo) {
+      this.abrirModalCalculoTarifa(cochera as Cochera & { activo: Estacionamiento });
+      return;
+    }
+  
+    Swal.fire({
+      title: "La cochera está disponible. ¿Te gustaría cambiarla a no disponible?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Cambiar",
+      denyButtonText: "No cambiar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cocheras.deshabilitarCochera(cochera).then(() => {
+          Swal.fire("¡Cambios guardados!", "La cochera ahora está no disponible.", "success");
+          this.getCocheras();
+        }).catch(error => {
+          console.error('Error al deshabilitar la cochera:', error);
           Swal.fire("Error", "Ocurrió un error al intentar cambiar la disponibilidad.", "error");
         });
       } else if (result.isDenied) {
