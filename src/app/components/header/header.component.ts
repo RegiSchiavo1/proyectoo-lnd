@@ -72,10 +72,10 @@ export class HeaderComponent {
   }
 
   Logout() {
-    // Elimina el token de autenticación almacenado en localStorage
+    
     this.auth.Logout()
 
-    // Redirige al usuario a la página de inicio de sesión
+    
     this.router.navigate(['/login']);
   }
 

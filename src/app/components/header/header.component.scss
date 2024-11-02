@@ -6,9 +6,9 @@
     display: flex;
     position: relative;
     z-index: 2;
-    align-items: center;           // Alinea verticalmente los elementos
-    justify-content: space-between; // Distribuye el título y los links
-    padding: 0 50px;               // Agrega espacio en los laterales
+    align-items: center;           
+    justify-content: space-between;
+    padding: 0 50px;               
     
 }
 
@@ -32,20 +32,20 @@
 
 nav {
     display: flex;
-    gap: 25px;                     // Espacio entre los enlaces
-    justify-content: flex-end;      // Empuja los enlaces hacia la derecha
-    align-items: center;            // Alinea verticalmente los enlaces
+    gap: 25px;                     
+    justify-content: flex-end;     
+    align-items: center;            
     font-size: 25px;
     
 }
 
 .links a{
     text-decoration: none;
-    display: flex;                  // Cambia a flex para un mejor control de la alineación
+    display: flex;                  
     gap: 16px;
-    align-items: center;            // Alinea los enlaces verticalmente
-    margin-top: 40px;                      // Elimina márgenes laterales
-    padding: 10px;                  // Agrega un poco de padding a los enlaces
+    align-items: center;            
+    margin-top: 40px;                      
+    padding: 10px;                  
     color: colores.$color-texto;
     transition: color 0.3s ease, text-shadow 0.3s ease;
 }

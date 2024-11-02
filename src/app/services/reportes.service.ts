@@ -1,9 +1,9 @@
-// reportes.service.ts
+
 
 import { inject, Injectable } from '@angular/core';
-import { Estacionamiento } from './../interfaces/estacionamiento'; // Importa la interfaz Estacionamiento
-import { Reportes } from './../interfaces/reportes'; // Importa la interfaz de Reportes
-import { AuthService } from './auth.service'; // Servicio de autenticación
+import { Estacionamiento } from './../interfaces/estacionamiento'; 
+import { Reportes } from './../interfaces/reportes'; 
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +15,10 @@ export class ReportesService {
     return this.estacionamientos().then(estacionamientos => {
       const meses: Record<string, { usos: number; cobro: number }> = {};
 
-      // Ordena por fecha de ingreso
+      
       estacionamientos.sort((a, b) => new Date(a.horaIngreso).getTime() - new Date(b.horaIngreso).getTime());
 
-      // Procesa los estacionamientos cerrados
+     
       estacionamientos.forEach(estacionamiento => {
         if (estacionamiento.eliminado === null && estacionamiento.horaEgreso && estacionamiento.costo != null) {
           const fechaIngreso = new Date(estacionamiento.horaIngreso);
@@ -33,7 +33,7 @@ export class ReportesService {
         }
       });
 
-      // Convierte el objeto a un array de Reportes
+      
       return Object.entries(meses).map(([mes, { usos, cobro }]) => ({
         mes,
         usos,

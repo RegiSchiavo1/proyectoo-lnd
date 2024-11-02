@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Estacionamiento } from '../interfaces/estacionamiento'; // Asegúrate de que esta ruta sea correcta
+import { Estacionamiento } from '../interfaces/estacionamiento'; 
 
 @Injectable({
   providedIn: 'root'

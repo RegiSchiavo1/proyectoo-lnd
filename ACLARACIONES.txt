@@ -1,0 +1,26 @@
+ACLARACIONES SOBRE EL TRABAJO N°2:
+*En la página de login todos los recursos adicionales, recordar, registrarme, olvidé mi contraseña, son clickeables y cuentan con una respuesta, pero no anexada al back.
+
+*Estado-cochera cuenta con 4 botones, los que están en color negro se encuentran disponibles para utilizar, aquellos en gris por diversas 
+condiciones no reunidas no pueden utilizarse (estos colores son dinámicos a medida que accionamos sobre las filas).
+	Las acciones disponibles son:
+		*Cambiar disponibilidad, poner una cochera disponible/no disponible.
+		*Agregar cocheras nuevas mediante el botón "Agregar Fila".
+		*En aquellas disponibles, poder ingresar una patetente para estacionar, tocando 	"Disponible". En caso de no estar  disponible esto no será posible.
+		*Una vez utilizada la cochera ingresada, se podrá mediante el botón de cobrar, obtener la  tarifa y liberar la cochera.
+		*Eliminar cualquier cochera, menos aquellas que están siendo ocupadas.
+	(TODAS ESTAS OPERACIONES ESTÁN COORDINADAS CON EL BACKEND)
+
+*Reportes hace un recuento de todas las tarifas cobradas en un mes y cuantas veces se utilizaron las cocheras en ese mes, por lo que 
+ cualquier auto ingresado y cualquier tarifa cobrada en estado-cochera, se va a ver reflejado en reportes.
+
+*Por último, precios nos abre un modal de selección entre distintos vehiculos. Precios"autos" nos muestra las tarias por media hora, hora y mas de una hora que se encuentran en el back end. 
+	Es posible modificar las tarifas desde el fron end, ver sus cambion en él, y también se ven modificadas en el back end.
+	Precios "motos" y "camionetas" cuentan con datos no conectados al back end al no tener informacion sobre estos vehículos, pero que si son modificables y guardados en la localStorage 
+	para evitar que se pierdan al regargar la página. (Los precios son independientes entre sí, ya que al hacer cambios en uno, no se alteran los otros).
+
+
+https://youtu.be/crtCc9akmpY?si=qT_8SmCMT0Csl_tz
+
+
+ https://youtube.com/playlist?list=PL42UNLc8e48RINrNGumxAKulG5CWgs_yv&si=2V4mC0ZYhJTwOxG2

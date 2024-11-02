@@ -13,7 +13,7 @@
         <div class="fila">
           <div>{{$index+1}}</div>
   
-          <!-- Condición para mostrar la disponibilidad de la cochera -->
+          
           @if (fila.activo){
             <div>{{ fila.activo.patente }}</div>
           }
@@ -71,27 +71,4 @@
     <button id="boton" (click)="agregarFila()">Agregar fila</button>
 </div>
 
-
-
-
-
-
-        
-        <!-- <div class="fila" (click)="abrirModalNuevoEstacionamiento(fila.id)"> modifica una cochera 
-              <div>{{fila.id}}</div>  -->
-            <!-- <div [ngClass]="{'no-disponible': fila.deshabilitada === 1, 'disponible': fila.deshabilitada === 0}"> -->
-                <!-- {{fila.deshabilitada ? "no disponible" : "disponible"}} -->
-            <!-- </div> -->
-            <!-- <div>{{fila.descripcion}}</div> -->
-            <!-- <div class="boton-borrar"> -->
-                <!-- Agregar $event.stopPropagation() para detener la propagación del clic --> 
-                <!-- <i (click)="eliminarFila(fila.id); $event.stopPropagation()" class='bx bx-trash'></i>
-                <i (click)="cambiarDisponibilidadCochera($index); $event.stopPropagation()" class='bx bxs-check-circle'></i>
-            </div> -->
-        <!-- </div>  -->
-
-
-<!-- <div class="boton-agregar">
-    <button id="boton" (click)="MostrarCochera()">Mostrar cocheras</button>
-</div> -->
 

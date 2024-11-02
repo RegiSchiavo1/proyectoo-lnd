@@ -188,8 +188,8 @@ export class EstadoCocherasComponent {
   agregarFila(): void {
     this.cocheras.agregarCochera(this.datosEstadoCocheras)
       .then(data => {
-        data.fila = true; // Configura la cochera como disponible si es necesario
-        this.getCocheras(); // Recarga el estado de cocheras desde el backend
+        data.fila = true; 
+        this.getCocheras(); 
       })
       .catch(error => {
         console.error('Hubo un problema con la operación fetch:', error);

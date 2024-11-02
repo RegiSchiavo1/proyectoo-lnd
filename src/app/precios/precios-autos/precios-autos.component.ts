@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PreciosAutosComponent implements OnInit {
 
-  tarifas: Tarifa[] = []; // Define el tipo con la interfaz, si la decides usar
+  tarifas: Tarifa[] = []; 
 
   constructor(private preciosService: PreciosService) {}
 
@@ -47,7 +47,7 @@ export class PreciosAutosComponent implements OnInit {
         
         this.preciosService.actualizarTarifa(id, nuevoPrecio)
           .then(updatedTarifa => {
-            // Actualizar el precio en la tarifa local
+            
             const index = this.tarifas.findIndex(tarifa => tarifa.id === id);
             if (index !== -1) this.tarifas[index].valor = `$${nuevoPrecio}`;
             Swal.fire(`El nuevo precio es $${nuevoPrecio}`);
