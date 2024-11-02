@@ -35,6 +35,10 @@ export class EstadoCocherasComponent {
   cocheras = inject(CocherasService);
   precios = inject(PreciosService);
 
+  datosEstadoCocheras = {
+    descripcion: " "
+  }
+
   ngOnInit() {
     this.getCocheras();
   }
@@ -170,9 +174,7 @@ export class EstadoCocherasComponent {
     });
   }
 
-  //  calcularTarifa(estacionamiento: Estacionamiento): Promise<number> {
-  //    return this.precios.calcularTarifa(estacionamiento);
-  //  }
+
   abrirModalCalculoTarifa(cochera: Cochera & { activo: Estacionamiento | null }) {
     if (!cochera.activo) return;
   
@@ -207,21 +209,22 @@ export class EstadoCocherasComponent {
     });
   }
   
-
+  agregarFila(): void {
+    this.cocheras.agregarCochera(this.datosEstadoCocheras)
+      .then(data => {
+        console.log(data);
+        this.ngOnInit(); // Recarga los datos después de agregar
+      })
+      .catch(error => {
+        console.error('Hubo un problema con la operación fetch:', error);
+      });
+  }
   
   
   
   
 
-  // liberarCochera(idEstacionamiento: number) {
-  //   this.estacionamientos.liberarCochera(idEstacionamiento).then(response => {
-  //     Swal.fire("Éxito", "La cochera ha sido liberada correctamente", "success");
-  //     this.getCocheras();
-  //   }).catch(error => {
-  //     Swal.fire("Error", "No se pudo liberar la cochera. Inténtalo nuevamente.", "error");
-  //     console.error('Error al liberar la cochera:', error);
-  //   });
-  // }
+
 }
 
 

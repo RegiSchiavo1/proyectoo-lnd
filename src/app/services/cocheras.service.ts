@@ -47,4 +47,23 @@ export class CocherasService {
       }
     });
   }
+
+  agregarCochera(datosCochera: { descripcion: string }): Promise<any> {
+    return fetch("http://localhost:4000/cocheras/", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'Bearer ' + (this.auth.getToken() ?? '')
+      },
+      body: JSON.stringify(datosCochera),
+    }).then(res => {
+      if (!res.ok) {
+        throw new Error('Error al agregar nueva fila: ' + res.statusText);
+      }
+      return res.json();
+    });
+  }
+
+
+
 }

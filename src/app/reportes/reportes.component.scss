@@ -13,24 +13,26 @@
     margin: 40px auto; /* Centra horizontalmente */
     font-size: 20px;
     text-align: center;
+    justify-content: center;
     background-color: colores.$color-texto-invertido-claro; /* Asume que las variables están definidas */
 }
 
 #header-tabla {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    background-color: colores.$color-principal; /* Usa las variables SCSS */
+    background-color: colores.$color-principal;
     color: colores.$color-texto;
     text-align: center;
     padding: 10px; 
     font-size: 25px;
+    align-items: center; /* Alinea verticalmente los elementos */
 }
 
 .fila {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 columnas para coincidir con el encabezado */
     padding: 10px;
-    align-items: center;
+    align-items: center; /* Alinea verticalmente los elementos */
     text-align: center;
 }
 
@@ -41,6 +43,7 @@
 .fila:nth-child(odd) {
     background-color: colores.$color-texto-invertido;
 }
+
 
 #estado-cocheras {
     text-align: center;
