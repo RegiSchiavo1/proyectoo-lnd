@@ -99,7 +99,18 @@
         .boton-borrar i {
             font-size: 20px;
             margin-left: 10px;
+            transition: color 0.3s ease;
+            &:hover {
+                color: colores.$color-principal;
+              }
+      
         }
+
+        .deshabilitado {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+          }
 
         .boton-agregar:hover {
         background-color: colores.$color-principal;

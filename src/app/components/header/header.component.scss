@@ -15,14 +15,19 @@
 .encab-head {
     font-size: 50px;
     margin-left: 25px;
-    color: colores.$color-texto;
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
     margin-top: 25px;
     align-items: center;
+    color: colores.$color-texto;
 }
-
+.encab-head:hover {
+    color: colores.$color-principal;
+    text-shadow: 2px 2px 4px colores.$color-secundario;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+   
+}
 
 
 nav {
@@ -34,7 +39,7 @@ nav {
     
 }
 
-.links a {
+.links a{
     text-decoration: none;
     display: flex;                  // Cambia a flex para un mejor control de la alineación
     gap: 16px;

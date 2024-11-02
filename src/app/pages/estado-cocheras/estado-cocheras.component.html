@@ -1,43 +1,77 @@
+
 <app-header></app-header>
+      <div id="tabla">
+        <div id="header-tabla">
+          <div>{{header.nro}}</div>
+          <div>{{header.disponibilidad}}</div>
+          <div>{{header.ingreso}}</div>
+          <div>{{header.acciones}}</div>
+        </div>
+  
+        @for (fila of filas; track $index) {
+  
+        <div class="fila">
+          <div>{{$index+1}}</div>
+  
+          <!-- Condición para mostrar la disponibilidad de la cochera -->
+          @if (fila.activo){
+            <div>{{ fila.activo.patente }}</div>
+          }
+          @else if (fila.deshabilitada) {
+            <div><span class="no-disponible">No disponible</span></div>
+          }
+          @else {
+            <div (click)="abrirModalNuevoEstacionamiento(fila.id)"><span class="Disponible">Disponible</span></div>
+          }
+  
+          <div>{{ fila.activo?.horaIngreso }}</div>
+  
 
-<div id="tabla">
-  <div id="header-tabla">
-    <div>{{ header.nro }}</div>
-    <div>{{ header.disponibilidad }}</div>
-    <div>{{ header.ingreso }}</div>
-    <div>{{ header.acciones }}</div>
-  </div>
+          <div class="boton-borrar">
 
-  @for (fila of filas; track $index) {
-    <div class="fila" 
-         (click)="fila.deshabilitada === 0 && !fila.activo ? abrirModalNuevoEstacionamiento(fila.id) : null">
-      <div>{{ $index + 1 }}</div>
+            
+            <i 
+            class="bx bx-trash" 
+            [ngClass]="{'deshabilitado': fila.activo}" 
+            (click)="!fila.activo && abrirModalEliminarCochera(fila.id); $event.stopPropagation()">
+            
+          </i>
+  
 
-      <!-- Estado de disponibilidad de la cochera -->
-      @if (fila.activo) {
-        <div>{{ fila.activo.patente }}</div>
-      } @else if (fila.deshabilitada) {
-        <div><span class="no-disponible">No disponible</span></div>
-      } @else {
-        <div><span class="Disponible">Disponible</span></div>
-      }
+            <i 
+              class="bx bxs-check-circle" 
+              [ngClass]="{'deshabilitado': !fila.deshabilitada}" 
+              (click)="fila.deshabilitada && abrirModalHabilitarCochera(fila.id); $event.stopPropagation()">
+              
+            </i>
+ 
+            <i 
+              class='bx bxs-x-circle' 
+              [ngClass]="{'deshabilitado': fila.activo || fila.deshabilitada}" 
+              (click)="!fila.activo && !fila.deshabilitada && abrirModalDeshabilitarCochera(fila.id); $event.stopPropagation()">
+              
+            </i>
 
-      <!-- Hora de ingreso si está activo -->
-      <div>{{ fila.activo?.horaIngreso }}</div>
+            <i class="bx bx-money-withdraw"
+             [ngClass]="{'deshabilitado': !fila.activo}"
+            (click)="fila.activo && abrirModalCalculoTarifa(fila.id); $event.stopPropagation()"></i>
 
-      <!-- Botones de acciones -->
-      <div class="boton-borrar">
-        <i (click)="eliminarFila(fila.id); $event.stopPropagation()" class="bx bx-trash"></i>
-        <i (click)="habilitarCochera($index); $event.stopPropagation()" class="bx bxs-check-circle"></i>
-        <i (click)="deshabilitarCochera($index); $event.stopPropagation()"class='bx bxs-x-circle'></i>
+
+
+
+
+          </div>
+        </div>
+  
+        }
       </div>
-    </div>
-  }
+
 
   <div class="boton-agregar">
-    <button id="boton" (click)="agregarFila()">Agregar Fila</button>
+    <button id="boton" (click)="agregarFila()">Agregar fila</button>
 </div>
-</div>
+
+
 
 
 

@@ -43,145 +43,95 @@ export class EstadoCocherasComponent {
     this.getCocheras();
   }
 
-  getCocheras() {
-    return this.cocheras.cocheras().then(cocheras => {
-      this.filas = [];
-      for (let cochera of cocheras) {
-        this.estacionamientos.buscarEstacionamientoActivo(cochera.id).then(estacionamiento => {
-          this.filas.push({
-            ...cochera,
-            activo: estacionamiento,
-          });
-        });
-      }
-    });
+  async getCocheras() {
+    try {
+      const cocheras = await this.cocheras.cocheras();
+      this.filas = await Promise.all(cocheras.map(async cochera => {
+        const estacionamiento = await this.estacionamientos.buscarEstacionamientoActivo(cochera.id);
+        return { ...cochera, activo: estacionamiento };
+      }));
+    } catch (error) {
+      console.error("Error al obtener cocheras:", error);
+    }
   }
 
-  eliminarFila(idCochera: number) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: "btn btn-success",
-        cancelButton: "btn btn-danger"
-      },
-      buttonsStyling: true
-    });
-    
-    swalWithBootstrapButtons.fire({
-      title: "¿Estás seguro de borrarlo?",
-      text: "No vas a poder revertirlo",
+  abrirModalEliminarCochera(idCochera: number) {
+    Swal.fire({
+      title: "¿Estás seguro de eliminar esta cochera?",
+      text: "No podrás revertir esta acción",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Sí, ¡Borrar!",
-      cancelButtonText: "No, ¡No lo borres!",
-      cancelButtonColor: "#630c00",
-      reverseButtons: true
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
         this.cocheras.eliminarCochera(idCochera).then(() => {
-          swalWithBootstrapButtons.fire("Genial!", "La cochera se borró con éxito!", "success");
+          Swal.fire("¡Eliminada!", "La cochera ha sido eliminada.", "success");
           this.filas = this.filas.filter(f => f.id !== idCochera);
         }).catch(error => {
-          console.error('Error al borrar la cochera:', error);
-          swalWithBootstrapButtons.fire("Error", "Ocurrió un error al borrar la cochera", "error");
+          console.error("Error al eliminar la cochera:", error);
+          Swal.fire("Error", "No se pudo eliminar la cochera.", "error");
         });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        swalWithBootstrapButtons.fire("Cancelado", "La cochera no ha sido eliminada", "error");
       }
     });
   }
 
-  habilitarCochera(idCochera: number) {
+  abrirModalHabilitarCochera(idCochera: number) {
     const cochera = this.filas.find(c => c.id === idCochera);
     if (!cochera) return;
-  
-    // Si la cochera tiene un estacionamiento activo, abre el modal de cálculo de tarifa
-    if (cochera.activo) {
-      this.abrirModalCalculoTarifa(cochera as Cochera & { activo: Estacionamiento });
-      return;
-    }
-  
+
     Swal.fire({
-      title: "La cochera está no disponible. ¿Te gustaría cambiarla a disponible?",
-      showDenyButton: true,
+      title: "¿Deseas habilitar esta cochera?",
+      text: "Esto cambiará su disponibilidad a disponible",
+      icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Cambiar",
-      denyButtonText: "No cambiar"
+      confirmButtonText: "Sí, habilitar",
+      cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
         this.cocheras.habilitarCochera(cochera).then(() => {
-          Swal.fire("¡Cambios guardados!", "La cochera ahora está disponible.", "success");
+          Swal.fire("¡Habilitada!", "La cochera ahora está disponible.", "success");
           this.getCocheras();
         }).catch(error => {
-          console.error('Error al habilitar la cochera:', error);
-          Swal.fire("Error", "Ocurrió un error al intentar cambiar la disponibilidad.", "error");
+          console.error("Error al habilitar la cochera:", error);
+          Swal.fire("Error", "No se pudo habilitar la cochera.", "error");
         });
-      } else if (result.isDenied) {
-        Swal.fire("Los cambios no fueron guardados", "", "info");
       }
     });
   }
-  
-  deshabilitarCochera(idCochera: number) {
+
+  abrirModalDeshabilitarCochera(idCochera: number) {
     const cochera = this.filas.find(c => c.id === idCochera);
     if (!cochera) return;
-  
-    // Si la cochera tiene un estacionamiento activo, abre el modal de cálculo de tarifa
-    if (cochera.activo) {
-      this.abrirModalCalculoTarifa(cochera as Cochera & { activo: Estacionamiento });
-      return;
-    }
-  
+
     Swal.fire({
-      title: "La cochera está disponible. ¿Te gustaría cambiarla a no disponible?",
-      showDenyButton: true,
+      title: "¿Deseas deshabilitar esta cochera?",
+      text: "Esto cambiará su disponibilidad a no disponible",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Cambiar",
-      denyButtonText: "No cambiar"
+      confirmButtonText: "Sí, deshabilitar",
+      cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
         this.cocheras.deshabilitarCochera(cochera).then(() => {
-          Swal.fire("¡Cambios guardados!", "La cochera ahora está no disponible.", "success");
+          Swal.fire("¡Deshabilitada!", "La cochera ahora está no disponible.", "success");
           this.getCocheras();
         }).catch(error => {
-          console.error('Error al deshabilitar la cochera:', error);
-          Swal.fire("Error", "Ocurrió un error al intentar cambiar la disponibilidad.", "error");
-        });
-      } else if (result.isDenied) {
-        Swal.fire("Los cambios no fueron guardados", "", "info");
-      }
-    });
-  }
-  
-  
-
-  abrirModalNuevoEstacionamiento(idCochera: number) {
-    Swal.fire({
-      title: "Ingrese su patente",
-      input: "text",
-      showCancelButton: true,
-      inputValidator: (value) => { 
-        if (!value) {
-          return "Necesitás escribir algo!";
-        }
-        return null;
-      }
-    }).then(res => {
-      if (res.isConfirmed) {
-        this.estacionamientos.estacionarAuto(res.value, idCochera).then(() => {
-          this.getCocheras();
+          console.error("Error al deshabilitar la cochera:", error);
+          Swal.fire("Error", "No se pudo deshabilitar la cochera.", "error");
         });
       }
     });
   }
 
+  abrirModalCalculoTarifa(idCochera: number) {
+    const cochera = this.filas.find(c => c.id === idCochera);
+    if (!cochera || !cochera.activo) return;
 
-  abrirModalCalculoTarifa(cochera: Cochera & { activo: Estacionamiento | null }) {
-    if (!cochera.activo) return;
-  
     Swal.fire({
-      title: "¿Deseas dejar de utilizar esta cochera?",
-      text: "Esto calculará el costo final y liberará la cochera.",
-      icon: "warning",
+      title: "¿Deseas calcular la tarifa y cerrar esta cochera?",
+      text: "Esto calculará la tarifa y liberará la cochera",
+      icon: "info",
       showCancelButton: true,
       confirmButtonText: "Sí, calcular y cerrar",
       cancelButtonText: "Cancelar"
@@ -189,42 +139,62 @@ export class EstadoCocherasComponent {
       if (result.isConfirmed && cochera.activo) {
         this.estacionamientos.cerrarEstacionamiento(cochera.activo.patente, cochera.id)
           .then(response => {
-            // Asegúrate de acceder a los campos correctos
-            if (response && response.message && response.costo != null) {
+            if (response && response.costo != null) {
               Swal.fire({
                 title: "Estacionamiento cerrado",
-                text: `La tarifa total es: $${response.costo}`, // Usa response.costo
+                text: `La tarifa total es: $${response.costo}`,
                 icon: "success"
               });
-              this.getCocheras(); // Refresca las cocheras
+              this.getCocheras();
             } else {
               throw new Error("Respuesta del servidor incompleta o incorrecta");
             }
           })
           .catch(error => {
             console.error("Error al cerrar el estacionamiento:", error);
-            Swal.fire("Error", "No se pudo cerrar el estacionamiento. Inténtalo nuevamente.", "error");
+            Swal.fire("Error", "No se pudo cerrar el estacionamiento.", "error");
           });
       }
     });
   }
-  
+
+  abrirModalNuevoEstacionamiento(idCochera: number) {
+    Swal.fire({
+      title: "Ingrese su patente",
+      input: "text",
+      inputPlaceholder: "Ej: ABC123",
+      showCancelButton: true,
+      confirmButtonText: "Estacionar",
+      cancelButtonText: "Cancelar",
+      inputValidator: (value) => { 
+        if (!value) {
+          return "Necesitás escribir algo!";
+        }
+        return null;
+      }
+    }).then(res => {
+      if (res.isConfirmed && res.value) {
+        this.estacionamientos.estacionarAuto(res.value, idCochera).then(() => {
+          Swal.fire("¡Estacionado!", "El auto ha sido estacionado exitosamente.", "success");
+          this.getCocheras();
+        }).catch(error => {
+          console.error("Error al estacionar el auto:", error);
+          Swal.fire("Error", "No se pudo estacionar el auto.", "error");
+        });
+      }
+    });
+  }
+
   agregarFila(): void {
     this.cocheras.agregarCochera(this.datosEstadoCocheras)
       .then(data => {
-        console.log(data);
-        this.ngOnInit(); // Recarga los datos después de agregar
+        data.fila = true; // Configura la cochera como disponible si es necesario
+        this.getCocheras(); // Recarga el estado de cocheras desde el backend
       })
       .catch(error => {
         console.error('Hubo un problema con la operación fetch:', error);
       });
   }
-  
-  
-  
-  
-
-
 }
 
 

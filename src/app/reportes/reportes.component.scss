@@ -1,85 +1,89 @@
 @use "./../../../public/styles/colores.scss";
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&display=swap');
-*{
+
+* {
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
-    margin-left: 50px;
-    margin-right: 50px;
+    height: 100%; 
+
+
 }
 
+.fondo-reportes {
+    background-image: url('./../pages/login/page-content/REPORTES.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+
 #table {
-    width: 50%; /* Ya debería centrar la tabla debido a auto margin */
-    margin: 40px auto; /* Centra horizontalmente */
+    width: 50%;
+    margin: auto;
     font-size: 20px;
     text-align: center;
     justify-content: center;
-    background-color: colores.$color-texto-invertido-claro; /* Asume que las variables están definidas */
+    color: colores.$color-texto-invertido;
+    // background-color: colores.$color-texto-invertido-claro;
 }
 
 #header-tabla {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     background-color: colores.$color-principal;
-    color: colores.$color-texto;
+    color: colores.$color-texto-invertido;
     text-align: center;
-    padding: 10px; 
+    padding: 10px;
     font-size: 25px;
-    align-items: center; /* Alinea verticalmente los elementos */
+    align-items: center;
 }
 
 .fila {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas para coincidir con el encabezado */
-    padding: 10px;
-    align-items: center; /* Alinea verticalmente los elementos */
+    grid-template-columns: repeat(4, 1fr);
+    padding: 20px;
+    align-items: center;
     text-align: center;
+    border-bottom: 1px solid colores.$color-texto-invertido-claro; 
 }
 
-.fila:nth-child(even) {
-    background-color: colores.$color-texto-invertido-claro;
+//.fila:nth-child(even) {
+    //background-color: colores.$color-texto-invertido-claro;
+//}
+
+//.fila:nth-child(odd) {
+   // background-color: colores.$color-texto-invertido;
+//}
+
+#tabla {
+    margin: 0 auto;
 }
 
-.fila:nth-child(odd) {
-    background-color: colores.$color-texto-invertido;
-}
 
-
-#estado-cocheras {
-    text-align: center;
-    font-size: 20px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin: 20px;
-    font-weight: bold;
-    background-color: colores.$color-texto-invertido-claro;
-    padding: 5px;
-    border-radius: 5px;
-    width: 20%;
-    margin: 20px auto; /* Centra horizontalmente */
-}
 
 .boton-agregar {
-    text-align: center;
     background-color: colores.$color-texto;
     padding: 10px;
-    margin: 10px 0;
-    width: 180px;
+    width: 180px; 
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    margin: 10px auto; /* Centra horizontalmente */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; 
+    box-shadow: 0 4px 8px colores.$color-contraste-principal; 
+    text-align: center;
+     margin-left: 650px;
+     margin-top: 20px;
+     color: colores.$color-texto-invertido;
+    
 }
 
 .boton-agregar:hover {
     background-color: colores.$color-principal;
+    box-shadow: 0 6px 12px colores.$color-principal-bajado;
+    color: colores.$color-texto;
 }
 
-#boton {
-    background-color: transparent;
-    border-color: transparent;
-    color: colores.$color-texto-invertido-claro;
-}
-
-#tabla {
-    margin: 0 auto; /* Centra horizontalmente */
-}
